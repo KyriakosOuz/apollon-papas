@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "name": "Apollon Papas",
+    "about": "About",
+    "journey": "Journey",
+    "programs": "Programs",
+    "contact": "Contact"
+  },
+  "hero": {
+    "eyebrow": "Founder. Operator. Educator.",
+    "headLead": "Apollon Papas",
+    "headTail": "After 15 years on the front line of enterprise growth, I am building the next step.",
+    "sub": "Education that prepares people for the real market.",
+    "ctaPrimary": "See the programs",
+    "ctaSecondary": "Contact",
+    "trusted": "Trusted by"
+  },
+  "about": {
+    "title": "About",
+    "role": "Founder",
+    "company": "GYA Media Group",
+    "bio": "Apollon Papas founded GYA Media in 2017 and has built his career on the front line of marketing: B2B lead generation, performance advertising, webinars and brand storytelling. He has worked with brands such as Amazon, Samsung, SHEIN, COSRX, Michelin, ZOOM and EY, building the sales systems, funnels and SOPs behind their growth.",
+    "cta": "Contact",
+    "portraitAlt": "Portrait of Apollon Papas",
+    "stats": [
+      { "n": 15, "suffix": "+", "label": "Years of experience" },
+      { "n": 50, "suffix": "+", "label": "Publications" },
+      { "n": 9000, "suffix": "+", "label": "Training hours" },
+      { "n": 17539, "suffix": "", "label": "Executives and teams trained" }
+    ]
+  },
+  "journey": {
+    "title": "Journey",
+    "items": [
+      {
+        "year": "2017",
+        "title": "Founding of GYA Media",
+        "body": "Starts GYA Media: digital marketing, business intelligence, B2B lead generation, performance advertising, brand storytelling."
+      },
+      {
+        "year": "2018-2022",
+        "title": "Growth into international markets",
+        "body": "Expands across the Americas, Europe and the GCC. Integrates 4 companies in marketing, production and IT, builds GYA Media Group, takes on government and other projects in collaboration with Amazon, Samsung, SHEIN, COSRX, Michelin, ZOOM, EY. Builds sales systems, SOPs and marketing funnels. In 2019 he begins training teams in marketing and penetration, and brings the market its first Enterprise AI solutions together with Palantir Technologies and OpenAI."
+      },
+      {
+        "year": "2023-2025",
+        "title": "Training executives and innovation",
+        "body": "50+ publications, webinars and consulting. What worked in practice becomes methodology, shared with teams that keep growing."
+      },
+      {
+        "year": "2026+",
+        "title": "Focus on educating the next generation",
+        "body": "Founds the personal brand Apollon Papas, a series of educational services for senior executives as well as young people, in the international and Greek markets. The Career Readiness Sprint opens a safe space for the market's future leaders."
+      }
+    ]
+  },
+  "programs": {
+    "title": "Programs",
+    "crsTitle": "Career Readiness Sprint",
+    "crsDesc": "4 weeks of practical preparation for the job market.",
+    "live": "Live",
+    "soon": "Coming soon",
+    "mockupPlaceholder": "Product screenshot"
+  },
+  "contact": {
+    "title": "Contact",
+    "linkedin": "LinkedIn"
+  },
+  "footer": {
+    "rights": "© 2026 Apollon Papas",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  }
+}

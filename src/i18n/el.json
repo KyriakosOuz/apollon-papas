@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "name": "Απόλλων Παπάς",
+    "about": "Σχετικά",
+    "journey": "Διαδρομή",
+    "programs": "Προγράμματα",
+    "contact": "Επικοινωνία"
+  },
+  "hero": {
+    "eyebrow": "Founder. Operator. Educator.",
+    "headLead": "Απόλλων Παπάς",
+    "headTail": "Μετά 15 χρόνια στην πρώτη γραμμή του enterprise growth, χτίζω το επόμενο βήμα.",
+    "sub": "Εκπαίδευση που προετοιμάζει ανθρώπους για την πραγματική αγορά.",
+    "ctaPrimary": "Δες τα προγράμματα",
+    "ctaSecondary": "Επικοινωνία",
+    "trusted": "Συνεργασίες με"
+  },
+  "about": {
+    "title": "Σχετικά",
+    "role": "Founder",
+    "company": "GYA Media Group",
+    "bio": "Ο Απόλλων Παπάς ίδρυσε την GYA Media το 2017 και έχει χτίσει την καριέρα του στην πρώτη γραμμή του marketing: B2B lead generation, performance advertising, webinars και brand storytelling. Έχει συνεργαστεί με brands όπως Amazon, Samsung, SHEIN, COSRX, Michelin, ZOOM, EY, στήνοντας τα sales systems, funnels και SOPs πίσω από την ανάπτυξή τους.",
+    "cta": "Επικοινωνία",
+    "portraitAlt": "Πορτρέτο του Απόλλωνα Παπά",
+    "stats": [
+      { "n": 15, "suffix": "+", "label": "Χρόνια εμπειρίας" },
+      { "n": 50, "suffix": "+", "label": "Δημοσιεύσεις" },
+      { "n": 9000, "suffix": "+", "label": "Ώρες εκπαίδευσης" },
+      { "n": 17539, "suffix": "", "label": "Executives και ομάδες εκπαιδευμένα" }
+    ]
+  },
+  "journey": {
+    "title": "Διαδρομή",
+    "items": [
+      {
+        "year": "2017",
+        "title": "Ίδρυση της GYA Media",
+        "body": "Ξεκινά τη GYA Media: ψηφιακό marketing, business intelligence, B2B lead generation, performance advertising, brand storytelling."
+      },
+      {
+        "year": "2018-2022",
+        "title": "Ανάπτυξη σε διεθνείς αγορές",
+        "body": "Αναπτύσσει την παρουσία σε Αμερική, Ευρώπη και GCC. Ενσωματώνει 4 εταιρίες σε marketing, production και IT, χτίζει το GYA Media Group, αναλαμβάνει κυβερνητικά και λοιπά έργα σε συνεργασία με Amazon, Samsung, SHEIN, COSRX, Michelin, ZOOM, EY. Στήνει συστήματα πωλήσεων, SOPs και marketing funnels. Το 2019 ξεκινά να εκπαιδεύει ομάδες σε marketing και penetration, και παρέχει στην αγορά τις πρώτες λύσεις Enterprise AI σε συνδυασμό με Palantir Technologies και OpenAI."
+      },
+      {
+        "year": "2023-2025",
+        "title": "Εκπαίδευση executives και καινοτομία",
+        "body": "50+ δημοσιεύσεις, webinars και consulting. Όσα δούλευαν στην πράξη γίνονται μεθοδολογία που μοιράζεται σε ομάδες που μεγαλώνουν."
+      },
+      {
+        "year": "2026+",
+        "title": "Έμφαση στην εκπαίδευση των νέων",
+        "body": "Ιδρύει το προσωπικό brand Apollon Papas, μια σειρά εκπαιδευτικών υπηρεσιών για senior executives αλλά και νέους, στη διεθνή και την ελληνική αγορά. Το Career Readiness Sprint ανοίγει έναν ασφαλή χώρο για τα μελλοντικά στελέχη της αγοράς."
+      }
+    ]
+  },
+  "programs": {
+    "title": "Προγράμματα",
+    "crsTitle": "Career Readiness Sprint",
+    "crsDesc": "4 εβδομάδες πρακτικής προετοιμασίας για την αγορά εργασίας.",
+    "live": "Live",
+    "soon": "Σύντομα",
+    "mockupPlaceholder": "Screenshot προϊόντος"
+  },
+  "contact": {
+    "title": "Επικοινωνία",
+    "linkedin": "LinkedIn"
+  },
+  "footer": {
+    "rights": "© 2026 Απόλλων Παπάς",
+    "privacy": "Απόρρητο",
+    "terms": "Όροι"
+  }
+}

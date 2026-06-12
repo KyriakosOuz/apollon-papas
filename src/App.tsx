@@ -1,0 +1,36 @@
+import type { CSSProperties } from 'react';
+import { useTranslation } from 'react-i18next';
+import { SITE } from './config';
+import Nav from './components/Nav';
+import Hero from './components/Hero';
+import About from './components/About';
+import Journey from './components/Journey';
+import Programs from './components/Programs';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
+import { useScrollMotion } from './hooks/useScrollMotion';
+
+export default function App() {
+  useScrollMotion();
+  const { i18n } = useTranslation();
+
+  const rootVars = {
+    '--aurora-opacity': SITE.auroraOpacity,
+    '--grain-opacity': SITE.grainOpacity,
+    '--marquee-duration': `${SITE.marqueeDurationS}s`,
+  } as CSSProperties;
+
+  return (
+    <div data-lang={i18n.language} style={rootVars}>
+      <Nav />
+      <Hero />
+      <main>
+        <About />
+        <Journey />
+        <Programs />
+        <Contact />
+      </main>
+      <Footer />
+    </div>
+  );
+}
