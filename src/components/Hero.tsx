@@ -18,11 +18,32 @@ function Aurora() {
   );
 }
 
-function LogoSet({ hidden = false }: { hidden?: boolean }) {
+// Logo alt text lives in TRUSTED_LOGOS (src/config.ts), not the locale files, so
+// the call site overrides the inherited data-edit-source.
+function LogoSet({
+  hidden = false,
+  editId,
+  editKey,
+  editSource,
+}: {
+  hidden?: boolean;
+  editId?: string;
+  editKey?: string;
+  editSource?: string;
+}) {
   return (
     <div className="trusted-set" aria-hidden={hidden ? 'true' : undefined}>
       {TRUSTED_LOGOS.map((l, i) => (
-        <img key={i} className={('trusted-logo ' + l.cls).trim()} src={l.src} alt={hidden ? '' : l.alt} />
+        <img
+          key={i}
+          className={('trusted-logo ' + l.cls).trim()}
+          src={l.src}
+          alt={hidden ? '' : l.alt}
+          data-edit-id={editId}
+          data-edit-key={editKey}
+          data-edit-source={editSource}
+          data-edit-type={editId ? 'image' : undefined}
+        />
       ))}
     </div>
   );
@@ -82,20 +103,20 @@ export default function Hero() {
   }, []);
 
   return (
-    <header className="hero" data-screen-label="Hero">
+    <header className="hero" data-screen-label="Hero" data-edit-section="hero">
       <Aurora />
       <div className="hero-inner">
         <div className="eyebrow label js-eyebrow">
           <span className="dot"></span>
-          <span>{t('hero.eyebrow')}</span>
+          <span data-edit-id="home.hero.eyebrow" data-edit-key="hero.eyebrow">{t('hero.eyebrow')}</span>
         </div>
 
         <h1 className="display-xl display-font js-headline">
-          <span className="head-line">
+          <span className="head-line" data-edit-id="home.hero.headline-lead" data-edit-key="hero.headLead">
             {t('hero.headLead')}
-            <span className={'gold-dot' + (SITE.goldDot ? '' : ' off')}>.</span>
+            <span className={'gold-dot' + (SITE.goldDot ? '' : ' off')} data-edit-id="home.hero.headline-dot" data-edit-source="src/components/Hero.tsx">.</span>
           </span>
-          <span className="head-line head-tail" style={{ color: tailColor }}>
+          <span className="head-line head-tail" style={{ color: tailColor }} data-edit-id="home.hero.headline-tail" data-edit-key="hero.headTail">
             {words.map((w, i) => (
               <Fragment key={i18n.language + '-' + i}>
                 <span className="tw">{w}</span>
@@ -105,18 +126,22 @@ export default function Hero() {
           </span>
         </h1>
 
-        <p className="hero-sub body-l js-sub">{t('hero.sub')}</p>
+        <p className="hero-sub body-l js-sub" data-edit-id="home.hero.sub" data-edit-key="hero.sub">{t('hero.sub')}</p>
 
         <div className="ctas js-ctas">
-          <a className="btn btn-primary" href="#programmata">{t('hero.ctaPrimary')}</a>
-          <a className="btn btn-ghost" href="#epikoinonia">{t('hero.ctaSecondary')}</a>
+          <a className="btn btn-primary" href="#programmata" data-edit-id="home.hero.cta-primary" data-edit-key="hero.ctaPrimary">{t('hero.ctaPrimary')}</a>
+          <a className="btn btn-ghost" href="#epikoinonia" data-edit-id="home.hero.cta-secondary" data-edit-key="hero.ctaSecondary">{t('hero.ctaSecondary')}</a>
         </div>
 
         <div className="trusted js-trusted">
-          <span className="trusted-label label">{t('hero.trusted')}</span>
+          <span className="trusted-label label" data-edit-id="home.hero.trusted-label" data-edit-key="hero.trusted">{t('hero.trusted')}</span>
           <div className="trusted-slots">
             <div className="trusted-track">
-              <LogoSet />
+              <LogoSet
+                editId="home.hero.trusted-logo"
+                editKey="TRUSTED_LOGOS.{i}.alt"
+                editSource="src/config.ts"
+              />
               <LogoSet hidden />
             </div>
           </div>

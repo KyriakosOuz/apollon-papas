@@ -60,30 +60,39 @@ export default function About() {
   }, []);
 
   return (
-    <section className="section" id="sxetika" data-screen-label="About">
-      <h2 className="display-l display-font" data-reveal="">{t('about.title')}</h2>
+    <section className="section" id="sxetika" data-screen-label="About" data-edit-section="about">
+      <h2 className="display-l display-font" data-reveal="" data-edit-id="home.about.title" data-edit-key="about.title">{t('about.title')}</h2>
       <div className="about-card" data-reveal="">
         <div className="about-left">
           <div className="about-role">
-            <img className="gya-logo" src="/assets/logos/gya-media-white.png" alt="GYA Media" />
-            <span className="label role-label">{t('about.role')}</span>
-            <span className="company display-font">{t('about.company')}</span>
+            <img className="gya-logo" src="/assets/logos/gya-media-white.png" alt="GYA Media" data-edit-id="home.about.role-logo" data-edit-source="src/components/About.tsx" data-edit-type="image" />
+            <span className="label role-label" data-edit-id="home.about.role-label" data-edit-key="about.role">{t('about.role')}</span>
+            <span className="company display-font" data-edit-id="home.about.company" data-edit-key="about.company">{t('about.company')}</span>
           </div>
-          <p className="about-bio">{t('about.bio')}</p>
-          <a className="btn btn-ghost btn-sm" href="#epikoinonia">{t('about.cta')}</a>
+          <p className="about-bio" data-edit-id="home.about.bio" data-edit-key="about.bio">{t('about.bio')}</p>
+          <a className="btn btn-ghost btn-sm" href="#epikoinonia" data-edit-id="home.about.cta" data-edit-key="about.cta">{t('about.cta')}</a>
         </div>
         <div className="portrait" data-effect={SITE.portraitEffect} ref={portraitRef}>
-          <img className="base" src="/images/apollo.webp" alt={t('about.portraitAlt')} />
+          <img className="base" src="/images/apollo.webp" alt={t('about.portraitAlt')} data-edit-id="home.about.portrait" data-edit-key="about.portraitAlt" data-edit-type="image" />
           <img className="reveal" src="/images/apollo.webp" alt="" aria-hidden="true" />
           <div className="sheen" aria-hidden="true"></div>
         </div>
         <div className="about-stats">
           {stats.map((st, i) => (
             <div className="stat" key={i}>
-              <span className="stat-num display-font" data-count={st.n} data-suffix={st.suffix}>
+              {/* Rendered text is fmtStat(n) + suffix — a locale-formatted composition of two
+                  JSON fields, and GSAP rewrites textContent during the count-up. The key points
+                  at `n` only; `suffix` is a sibling field. See docs/overlay-cms.md. */}
+              <span
+                className="stat-num display-font"
+                data-count={st.n}
+                data-suffix={st.suffix}
+                data-edit-id="home.about.stat-num"
+                data-edit-key="about.stats.{i}.n"
+              >
                 {fmtStat(st.n) + st.suffix}
               </span>
-              <span className="stat-label">{st.label}</span>
+              <span className="stat-label" data-edit-id="home.about.stat-label" data-edit-key="about.stats.{i}.label">{st.label}</span>
             </div>
           ))}
         </div>

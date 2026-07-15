@@ -21,7 +21,7 @@ export default function App() {
   } as CSSProperties;
 
   return (
-    <div data-lang={i18n.language} style={rootVars}>
+    <div data-lang={i18n.language} data-edit-source={`src/i18n/${i18n.language}.json`} style={rootVars}>
       <Nav />
       <Hero />
       <main>
