@@ -8,8 +8,8 @@
   },
   "hero": {
     "eyebrow": "Founder. Operator. Educator.",
-    "headLead": "Apollon Papas",
-    "headTail": "After 15 years on the front line of enterprise growth, I am building the next step.",
+    "headLead": "V. Apollon Papas",
+    "headTail": "15+ years on the front line of Enterprise Growth. My purpose is to lead SMBs and Enterprises to the next step - always guided by the individual and the company's footprint.",
     "sub": "Education that prepares people for the real market.",
     "ctaPrimary": "See the programs",
     "ctaSecondary": "Contact",
@@ -64,10 +64,13 @@
   },
   "contact": {
     "title": "Contact",
+    "heading": "Let's talk.",
+    "book": "Book a call",
     "linkedin": "LinkedIn"
   },
   "footer": {
     "rights": "© 2026 Apollon Papas",
+    "tagline": "Founder, GYA Media Group",
     "privacy": "Privacy",
     "terms": "Terms"
   }

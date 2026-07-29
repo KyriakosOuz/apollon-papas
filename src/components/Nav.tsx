@@ -27,7 +27,7 @@ export default function Nav() {
             <button type="button" className={lang === 'el' ? 'active' : ''} onClick={() => i18n.changeLanguage('el')} data-edit-id="nav.lang.el">EL</button>
             <button type="button" className={lang === 'en' ? 'active' : ''} onClick={() => i18n.changeLanguage('en')} data-edit-id="nav.lang.en">EN</button>
           </div>
-          <a className="btn btn-primary btn-sm nav-cta" href="#epikoinonia" data-edit-id="nav.cta.contact" data-edit-key="nav.contact">{t('nav.contact')}</a>
+          <a className="btn btn-ghost btn-sm nav-cta" href="#epikoinonia" data-edit-id="nav.cta.contact" data-edit-key="nav.contact">{t('nav.contact')}</a>
         </div>
       </div>
     </nav>

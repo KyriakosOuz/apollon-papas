@@ -11,6 +11,9 @@ export const SITE = {
   portraitEffect: 'Tilt' as 'Tilt' | 'Spotlight' | 'None',
   linkedinUrl: 'https://www.linkedin.com/in/apollonpapas/',
   email: 'hello@apollonpapas.com',
+  // TODO: paste Apollo's real Calendly booking link. Empty = the "Book a call"
+  // button falls back to the contact anchor so nothing dead-links in the meantime.
+  calendlyUrl: '',
   crsPath: '/career-readiness-sprint',
 };
 
@@ -21,11 +24,21 @@ export const TOKEN_TEXT = '#F7F7F6';
 export const TOKEN_DIM = '#8B8B92';
 export const TOKEN_FAINT = '#5E5E66';
 
+// GYA Media featured clients. Single-color SVGs and transparent PNGs so the
+// mono-white filter in .trusted-logo renders them as clean white silhouettes.
 export const TRUSTED_LOGOS = [
-  { src: '/assets/logos/amazon.svg', alt: 'Amazon', cls: 'lg' },
-  { src: '/assets/logos/samsung.svg', alt: 'Samsung', cls: 'sm' },
-  { src: '/assets/logos/shein.svg', alt: 'SHEIN', cls: '' },
-  { src: '/assets/logos/cosrx.svg', alt: 'COSRX', cls: '' },
-  { src: '/assets/logos/michelin.svg', alt: 'Michelin', cls: 'sm' },
-  { src: '/assets/logos/zoom.svg', alt: 'Zoom', cls: '' },
+  { src: '/assets/logos/microsoft.svg', alt: 'Microsoft', cls: '' },
+  { src: '/assets/logos/aws.png', alt: 'AWS', cls: '' },
+  { src: '/assets/logos/oracle.png', alt: 'Oracle', cls: '' },
+  { src: '/assets/logos/dell.png', alt: 'Dell', cls: 'lg' },
+  { src: '/assets/logos/hpe.png', alt: 'Hewlett Packard Enterprise', cls: '' },
+  { src: '/assets/logos/veeam.png', alt: 'Veeam', cls: '' },
+  { src: '/assets/logos/square.svg', alt: 'Square', cls: '' },
+  { src: '/assets/logos/squarespace.svg', alt: 'Squarespace', cls: '' },
+  { src: '/assets/logos/invision.svg', alt: 'InVision', cls: '' },
+  { src: '/assets/logos/wistia.svg', alt: 'Wistia', cls: '' },
+  { src: '/assets/logos/feathr.svg', alt: 'Feathr', cls: '' },
+  { src: '/assets/logos/mileiq.svg', alt: 'MileIQ', cls: '' },
+  { src: '/assets/logos/swagup.svg', alt: 'SwagUp', cls: '' },
+  { src: '/assets/logos/mobilize.svg', alt: 'Mobilize', cls: '' },
 ];

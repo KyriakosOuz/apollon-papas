@@ -21,11 +21,13 @@ function Aurora() {
 // Logo alt text lives in TRUSTED_LOGOS (src/config.ts), not the locale files, so
 // the call site overrides the inherited data-edit-source.
 function LogoSet({
+  logos,
   hidden = false,
   editId,
   editKey,
   editSource,
 }: {
+  logos: typeof TRUSTED_LOGOS;
   hidden?: boolean;
   editId?: string;
   editKey?: string;
@@ -33,7 +35,7 @@ function LogoSet({
 }) {
   return (
     <div className="trusted-set" aria-hidden={hidden ? 'true' : undefined}>
-      {TRUSTED_LOGOS.map((l, i) => (
+      {logos.map((l, i) => (
         <img
           key={i}
           className={('trusted-logo ' + l.cls).trim()}
@@ -52,6 +54,10 @@ function LogoSet({
 export default function Hero() {
   const { t, i18n } = useTranslation();
   const words = t('hero.headTail').split(' ');
+  // Two counter-scrolling rows: first half drifts left, second half drifts right.
+  const trustedMid = Math.ceil(TRUSTED_LOGOS.length / 2);
+  const trustedRowA = TRUSTED_LOGOS.slice(0, trustedMid);
+  const trustedRowB = TRUSTED_LOGOS.slice(trustedMid);
   const tailColor = SITE.tailEnd === 'white' ? 'var(--text)' : 'var(--text-dim)';
 
   // Orchestrated hero load + ambient aurora drift and color cycling.
@@ -88,14 +94,20 @@ export default function Hero() {
     gsap.to('.hero .b-blue', { xPercent: 40, yPercent: -12, scale: 1.14, duration: 23, repeat: -1, yoyo: true, ease: 'sine.inOut' });
     gsap.to('.hero .b-teal', { xPercent: 38, yPercent: -14, scale: 1.08, duration: 19, repeat: -1, yoyo: true, ease: 'sine.inOut' });
 
-    // Color cycling: each blob slowly walks through the aurora palette (offset
-    // per blob so the composition always holds all five hues, just in motion)
+    // Color cycling, kept within temperature zones: the warm core blobs (gold,
+    // orange) only ever breathe between warm hues, and the cool edge blobs stay
+    // cool. Previously every blob walked the full palette, so cool hues drifted
+    // into the bright center and the glow read as a generic rainbow mesh. The
+    // spec calls for a warm-dominant core with cool only at the edges.
+    const warm = [AURORA_PALETTE[0], AURORA_PALETTE[1]]; // gold, orange
+    const cool = [AURORA_PALETTE[2], AURORA_PALETTE[3], AURORA_PALETTE[4]]; // magenta, blue, teal
     gsap.utils.toArray<HTMLElement>('.hero .aurora-blob').forEach((blob, i) => {
+      const zone = i < 2 ? warm : cool;
       const cycle = gsap.timeline({ repeat: -1 });
-      for (let k = 1; k <= AURORA_PALETTE.length; k++) {
+      for (let k = 1; k <= zone.length; k++) {
         cycle.to(blob, {
-          '--c': AURORA_PALETTE[(i + k) % AURORA_PALETTE.length],
-          duration: 6,
+          '--c': zone[(i + k) % zone.length],
+          duration: 7,
           ease: 'sine.inOut',
         });
       }
@@ -129,20 +141,28 @@ export default function Hero() {
         <p className="hero-sub body-l js-sub" data-edit-id="home.hero.sub" data-edit-key="hero.sub">{t('hero.sub')}</p>
 
         <div className="ctas js-ctas">
-          <a className="btn btn-primary" href="#programmata" data-edit-id="home.hero.cta-primary" data-edit-key="hero.ctaPrimary">{t('hero.ctaPrimary')}</a>
           <a className="btn btn-ghost" href="#epikoinonia" data-edit-id="home.hero.cta-secondary" data-edit-key="hero.ctaSecondary">{t('hero.ctaSecondary')}</a>
         </div>
 
         <div className="trusted js-trusted">
           <span className="trusted-label label" data-edit-id="home.hero.trusted-label" data-edit-key="hero.trusted">{t('hero.trusted')}</span>
-          <div className="trusted-slots">
-            <div className="trusted-track">
-              <LogoSet
-                editId="home.hero.trusted-logo"
-                editKey="TRUSTED_LOGOS.{i}.alt"
-                editSource="src/config.ts"
-              />
-              <LogoSet hidden />
+          <div className="trusted-rows">
+            <div className="trusted-slots">
+              <div className="trusted-track">
+                <LogoSet
+                  logos={trustedRowA}
+                  editId="home.hero.trusted-logo"
+                  editKey="TRUSTED_LOGOS.{i}.alt"
+                  editSource="src/config.ts"
+                />
+                <LogoSet logos={trustedRowA} hidden />
+              </div>
+            </div>
+            <div className="trusted-slots">
+              <div className="trusted-track reverse">
+                <LogoSet logos={trustedRowB} editId="home.hero.trusted-logo-2" editSource="src/config.ts" />
+                <LogoSet logos={trustedRowB} hidden />
+              </div>
             </div>
           </div>
         </div>

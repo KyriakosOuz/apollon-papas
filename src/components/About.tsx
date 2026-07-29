@@ -65,7 +65,6 @@ export default function About() {
       <div className="about-card" data-reveal="">
         <div className="about-left">
           <div className="about-role">
-            <img className="gya-logo" src="/assets/logos/gya-media-white.png" alt="GYA Media" data-edit-id="home.about.role-logo" data-edit-source="src/components/About.tsx" data-edit-type="image" />
             <span className="label role-label" data-edit-id="home.about.role-label" data-edit-key="about.role">{t('about.role')}</span>
             <span className="company display-font" data-edit-id="home.about.company" data-edit-key="about.company">{t('about.company')}</span>
           </div>
@@ -80,7 +79,7 @@ export default function About() {
         <div className="about-stats">
           {stats.map((st, i) => (
             <div className="stat" key={i}>
-              {/* Rendered text is fmtStat(n) + suffix — a locale-formatted composition of two
+              {/* Rendered text is fmtStat(n) + suffix, a locale-formatted composition of two
                   JSON fields, and GSAP rewrites textContent during the count-up. The key points
                   at `n` only; `suffix` is a sibling field. See docs/overlay-cms.md. */}
               <span

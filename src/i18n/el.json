@@ -8,8 +8,8 @@
   },
   "hero": {
     "eyebrow": "Founder. Operator. Educator.",
-    "headLead": "Απόλλων Παπάς",
-    "headTail": "Μετά 15 χρόνια στην πρώτη γραμμή του enterprise growth, χτίζω το επόμενο βήμα.",
+    "headLead": "Β. Απόλλων Παπάς",
+    "headTail": "15+ Χρόνια στην πρώτη γραμμή του Enterprise Growth. Σκοπός μου είναι να οδηγήσω SMBs και Enterprises στο επόμενο βήμα - πάντα με γνώμονα τον πολίτη και το αποτύπωμα της εταιρίας.",
     "sub": "Εκπαίδευση που προετοιμάζει ανθρώπους για την πραγματική αγορά.",
     "ctaPrimary": "Δες τα προγράμματα",
     "ctaSecondary": "Επικοινωνία",
@@ -64,10 +64,13 @@
   },
   "contact": {
     "title": "Επικοινωνία",
+    "heading": "Ας μιλήσουμε.",
+    "book": "Κλείσε ραντεβού",
     "linkedin": "LinkedIn"
   },
   "footer": {
     "rights": "© 2026 Απόλλων Παπάς",
+    "tagline": "Founder, GYA Media Group",
     "privacy": "Απόρρητο",
     "terms": "Όροι"
   }
