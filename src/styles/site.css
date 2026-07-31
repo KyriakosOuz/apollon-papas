@@ -125,6 +125,69 @@
   .nav-links a.active { color: var(--text); }
   .nav-right { display: flex; align-items: center; gap: 0.75rem; margin-left: auto; }
 
+  /* Mobile menu. The button and panel only exist below 720px, where the inline
+     links are hidden; above it there is nothing to open. */
+  .nav-toggle {
+    display: none;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--r-input);
+    background: color-mix(in srgb, var(--surface) 60%, transparent);
+    cursor: pointer;
+    position: relative;
+  }
+  .nav-toggle span {
+    position: absolute;
+    left: 11px;
+    width: 18px;
+    height: 1.5px;
+    border-radius: 2px;
+    background: var(--text);
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+  .nav-toggle span:nth-child(1) { top: 16px; }
+  .nav-toggle span:nth-child(2) { top: 22px; }
+  /* Both bars meet in the middle and cross, so the icon reads as a close. */
+  .nav-toggle.open span:nth-child(1) { transform: translateY(3px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { transform: translateY(-3px) rotate(-45deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-toggle span { transition: none; }
+  }
+
+  .nav-panel {
+    border-top: 1px solid var(--border);
+    /* Without a bottom edge the panel dissolves into whatever section it
+       happens to be sitting over. */
+    border-bottom: 1px solid var(--border);
+    /* Opaque, unlike the bar above it: the display type on the story page read
+       straight through a translucent panel and muddied the links. */
+    background: var(--bg);
+  }
+  .nav-panel[hidden] { display: none; }
+  .nav-panel-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+    padding: 0.5rem 2rem 1.25rem;
+  }
+  .nav-panel-inner > a {
+    padding: 0.75rem 0;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-panel-inner > a.active { color: var(--text); }
+  .nav-panel-cta {
+    margin-top: 1rem;
+    /* Overrides the link rules above: this one is a button, not a list row. */
+    border-bottom: none;
+    color: var(--text);
+  }
+
   .lang-toggle {
     display: flex;
     border: 1px solid var(--border);
@@ -927,6 +990,20 @@
   @media (max-width: 720px) {
     .nav-links { display: none; }
     .nav-cta { display: none; }
+    /* Both of the above move into the panel behind this button. */
+    .nav-toggle { display: block; }
+    .nav-inner { padding: 0.7rem 1.25rem; }
+    .nav-panel-inner { padding-inline: 1.25rem; }
+
+    /* The two-column footer put the brand name on a narrow column, wrapping
+       "Apollon Papas" over two lines and dropping Contact onto a second,
+       right-aligned nav row. One column, everything left-aligned. */
+    .footer-inner {
+      grid-template-columns: minmax(0, 1fr);
+      padding-inline: 1.25rem;
+      gap: 1.5rem;
+    }
+    .footer-nav { justify-content: flex-start; gap: 0.9rem 1.5rem; }
     .aurora-wrap { top: -10%; }
     .about-card { grid-template-columns: 1fr; }
     .portrait { max-width: 420px; width: 100%; }

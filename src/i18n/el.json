@@ -4,7 +4,9 @@
     "about": "Σχετικά",
     "journey": "Διαδρομή",
     "programs": "Προγράμματα",
-    "contact": "Επικοινωνία"
+    "contact": "Επικοινωνία",
+    "openMenu": "Άνοιγμα μενού",
+    "closeMenu": "Κλείσιμο μενού"
   },
   "hero": {
     "eyebrow": "Founder. Operator. Educator.",

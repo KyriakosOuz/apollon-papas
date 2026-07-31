@@ -4,7 +4,9 @@
     "about": "About",
     "journey": "Journey",
     "programs": "Programs",
-    "contact": "Contact"
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "hero": {
     "eyebrow": "Founder. Operator. Educator.",
