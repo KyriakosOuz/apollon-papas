@@ -14,7 +14,7 @@ export const SITE = {
   // TODO: paste Apollo's real Calendly booking link. Empty = the "Book a call"
   // button falls back to the contact anchor so nothing dead-links in the meantime.
   calendlyUrl: '',
-  crsPath: '/career-readiness-sprint',
+  crsUrl: 'https://join-crs.com/',
   // Apollo has paused the Greek locale. The toggle is hidden and i18n is pinned
   // to EN (see src/i18n/index.ts); el.json stays in the build so flipping this
   // back to true is the only change needed to bring Greek back.
@@ -25,6 +25,9 @@ export const SITE = {
   // Programs render as a sticky stack: each card pins under the nav and the
   // next one slides over it. Set to false for a plain scrolling grid.
   programStack: true,
+  // Program cards open in a new tab, including the same-origin ones, so the
+  // hub stays put behind them.
+  programLinksNewTab: true,
 };
 
 // Programs: copy lives in the locale files under `programs.founders` /
@@ -50,7 +53,9 @@ export const PROGRAM_MEDIA: Record<string, ProgramMedia> = {
   // unlinked and render without the arrow.
   mentorship: {},
   vault: {},
-  crs: { image: '/images/crs-banner-16x9-dark.png', href: SITE.crsPath, span: 'wide' },
+  // Lives on its own domain, so this one opens in a new tab (ProgramCard adds
+  // target=_blank for absolute http(s) links).
+  crs: { image: '/images/crs-banner-16x9-dark.png', href: SITE.crsUrl, span: 'wide' },
 };
 
 // Journey snapshot wall. `rot` tilts each print, `lift` nudges it off the
@@ -65,6 +70,36 @@ export const GALLERY = [
   { src: '/images/gallery/g2.jpg', rot: '4deg', lift: '-6px', z: 2, w: '20vw', focus: 'center' },
   // Shot portrait, so the group sits low once cropped to landscape.
   { src: '/images/gallery/g5.jpg', rot: '-3deg', lift: '20px', z: 4, w: '17vw', focus: 'center 62%' },
+];
+
+// /about: prints scattered down the gutters either side of the story column.
+// `top` is a percentage of the prose height, so the composition holds whatever
+// the copy length or viewport does to it. `side` picks the gutter, `nudge` is
+// an offset from the container edge (positive pulls the print in toward the
+// text, negative lets it hang past the edge) and `w` varies the print sizes so
+// the wall never reads as a grid.
+// `tall` marks the two portrait-orientation sources: the rest are landscape and
+// would lose people at the edges if forced into the same frame.
+export type StoryShot = {
+  src: string;
+  side: 'left' | 'right';
+  top: string;
+  rot: string;
+  w: string;
+  nudge?: string;
+  tall?: boolean;
+  focus?: string;
+};
+
+export const STORY_SHOTS: StoryShot[] = [
+  { src: '/images/story/s1.jpg', side: 'left',  top: '2%',  rot: '-6deg',  w: '210px' },
+  { src: '/images/story/s2.jpg', side: 'right', top: '7%',  rot: '4.5deg', w: '180px', tall: true, nudge: '18px' },
+  { src: '/images/story/s3.jpg', side: 'left',  top: '21%', rot: '3deg',   w: '235px', nudge: '-14px' },
+  { src: '/images/story/s4.jpg', side: 'right', top: '30%', rot: '-3.5deg', w: '225px' },
+  { src: '/images/story/s5.jpg', side: 'left',  top: '45%', rot: '5deg',   w: '175px', tall: true, nudge: '22px' },
+  { src: '/images/story/s6.jpg', side: 'right', top: '54%', rot: '2.5deg', w: '230px', nudge: '-10px' },
+  { src: '/images/story/s7.jpg', side: 'left',  top: '69%', rot: '-4deg',  w: '220px' },
+  { src: '/images/story/s8.jpg', side: 'right', top: '80%', rot: '4deg',   w: '205px', nudge: '12px' },
 ];
 
 export const AURORA_PALETTE = ['#F2C14E', '#FF7A3C', '#E85CCB', '#5B7CF5', '#2FD6C2'];

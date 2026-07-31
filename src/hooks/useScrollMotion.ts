@@ -16,10 +16,15 @@ export function prefersReducedMotion(): boolean {
 }
 
 // Page-level scroll machinery: Lenis smooth scroll, section reveals, stat
-// count-ups, aurora parallax, journey spine draw + dot lighting, smooth
-// anchor navigation. Everything is skipped under reduced motion; the page
-// is fully readable without it.
-export function useScrollMotion(): void {
+// count-ups, aurora parallax, journey spine draw + dot lighting, story print
+// reveals, smooth anchor navigation. Everything is skipped under reduced
+// motion; the page is fully readable without it.
+//
+// `route` is a dependency, not decoration: a navigation swaps the whole page
+// out, and every trigger here was measured against the DOM that just left.
+// revertOnUpdate tears the old set down (including Lenis, via the returned
+// cleanup) before this runs again against the new page.
+export function useScrollMotion(route: string): void {
   const lenisRef = useRef<Lenis | null>(null);
 
   useGSAP(() => {
@@ -95,6 +100,20 @@ export function useScrollMotion(): void {
       });
     });
 
+    // Story prints settle into their tilt as you reach them. A class toggle
+    // rather than a tween: the tilt is a CSS custom property on each print, and
+    // having GSAP own the transform too would mean the two fight over it.
+    gsap.utils.toArray<HTMLElement>('[data-story-shot]').forEach((shot) => {
+      ScrollTrigger.create({
+        trigger: shot,
+        // Later than the section reveals: a print that is still well below the
+        // fold has no business having already arrived.
+        start: 'top 92%',
+        once: true,
+        onEnter: () => shot.classList.add('in'),
+      });
+    });
+
     // Program stack: each card fades out as the next one scrolls up over it,
     // so only the card you are reading is ever visible.
     //
@@ -126,19 +145,22 @@ export function useScrollMotion(): void {
           }
 
           const pin = pinOf(card);
-          const top = card.getBoundingClientRect().top;
-          // At the end of the section the stack releases and the cards travel
-          // up together, which would grow `exposed` again and fade them back
-          // in. Anything already above its own pin has been passed for good.
-          if (top < pin - 1) {
+          // The sliver this card is left with once the next one settles onto
+          // its pin.
+          const sliver = pinOf(next) - pin;
+          const nextTop = next.getBoundingClientRect().top;
+
+          // Fully covered, and still covered after the stack releases at the
+          // end of the section and the cards travel up together. Measured from
+          // the covering card rather than this one, so a hover lift on this
+          // card cannot be mistaken for it having been scrolled past.
+          if (nextTop <= pin + sliver + 0.5) {
             card.style.opacity = '0';
             return;
           }
 
-          // How much of this card is still uncovered, and the sliver it is
-          // left with once the next card settles onto its pin.
-          const exposed = next.getBoundingClientRect().top - top;
-          const sliver = pinOf(next) - pin;
+          // How much of this card is still uncovered.
+          const exposed = nextTop - card.getBoundingClientRect().top;
           // Fade across the second half of being covered, so a card holds full
           // opacity until the next one is genuinely on top of it, and lands on
           // exactly 0 rather than leaving a faint ghost behind.
@@ -166,7 +188,7 @@ export function useScrollMotion(): void {
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, []);
+  }, { dependencies: [route], revertOnUpdate: true });
 
   // Smooth anchor navigation without scrollIntoView
   useEffect(() => {

@@ -21,7 +21,10 @@ function ProgramCard({ p, group, reveal }: { p: Program; group: string; reveal: 
   const media = PROGRAM_MEDIA[p.id] ?? {};
   // Cards only become links once the program has a page to point at.
   const Tag = media.href ? 'a' : 'div';
-  const external = !!media.href && /^https?:/.test(media.href);
+  // Every program is its own destination, so a card always opens in a new tab
+  // and leaves the brand hub behind it. Flip SITE.programLinksNewTab to keep
+  // the same-origin ones in place instead.
+  const newTab = !!media.href && SITE.programLinksNewTab;
   const cls =
     'product-card' +
     (media.span === 'wide' ? ' product-card--wide' : '') +
@@ -35,7 +38,7 @@ function ProgramCard({ p, group, reveal }: { p: Program; group: string; reveal: 
       // animates the same property and the two fight over it.
       {...(reveal ? { 'data-reveal': '' } : {})}
       {...(media.href ? { href: media.href } : {})}
-      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       data-edit-id={`home.programs.${p.id}`}
     >
       {media.image ? (

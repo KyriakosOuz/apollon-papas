@@ -68,8 +68,11 @@ export default function About() {
             <span className="label role-label" data-edit-id="home.about.role-label" data-edit-key="about.role">{t('about.role')}</span>
             <span className="company display-font" data-edit-id="home.about.company" data-edit-key="about.company">{t('about.company')}</span>
           </div>
+          {/* One paragraph, not two: the credentials and the story hook were
+              covering the same ground, and the button under it is what the hook
+              is there to earn. */}
           <p className="about-bio" data-edit-id="home.about.bio" data-edit-key="about.bio">{t('about.bio')}</p>
-          <a className="btn btn-ghost btn-sm" href="#epikoinonia" data-edit-id="home.about.cta" data-edit-key="about.cta">{t('about.cta')}</a>
+          <a className="btn btn-ghost btn-sm" href="/about" data-edit-id="home.about.cta" data-edit-key="about.cta">{t('about.cta')}</a>
         </div>
         <div className="portrait" data-effect={SITE.portraitEffect} ref={portraitRef}>
           <img className="base" src="/images/apollo-portrait.jpg" alt={t('about.portraitAlt')} data-edit-id="home.about.portrait" data-edit-key="about.portraitAlt" data-edit-type="image" />

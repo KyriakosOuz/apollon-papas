@@ -121,6 +121,8 @@
     transition: color 0.2s ease;
   }
   .nav-links a:hover { color: var(--text); }
+  /* About is a page of its own, so it can be the current one. */
+  .nav-links a.active { color: var(--text); }
   .nav-right { display: flex; align-items: center; gap: 0.75rem; margin-left: auto; }
 
   .lang-toggle {
@@ -387,6 +389,10 @@
     line-height: 1.15;
   }
   .section h2 { margin-bottom: 2.25rem; }
+  /* That gap belongs to section titles. A card heading that happens to be an h2
+     (the story page's CTA, where h3 would skip a level under its h1) sets its
+     own spacing through the card's flex gap. */
+  .section .product-card h2 { margin-bottom: 0; }
 
   /* ============ About ============ */
   .about-card {
@@ -574,6 +580,146 @@
     .gallery-shot { transition: none; }
   }
 
+  /* ============ Story page (/about) ============ */
+  /* One centred reading column with event prints scattered down the gutters
+     either side of it. The prints are ordinary siblings of the paragraphs in
+     the DOM; only the wide-viewport rule below lifts them out of flow, so the
+     phone layout is a plain interleaved read with no extra markup. */
+  .story {
+    /* Wider than a normal section: the 62ch column is fixed, so every extra
+       pixel here becomes gutter, and the prints need somewhere to live. */
+    max-width: 1320px;
+    /* No hero above it, so the section clears the fixed nav on its own. */
+    padding-top: clamp(7rem, 15vh, 10rem);
+    overflow: hidden;
+  }
+  .story-aurora {
+    top: -18%;
+    right: auto;
+    left: 50%;
+    width: min(58vw, 780px);
+    margin-left: calc(min(58vw, 780px) / -2);
+    opacity: 0.26;
+  }
+  .story-head {
+    position: relative;
+    z-index: 2;
+    max-width: 62ch;
+    margin: 0 auto clamp(2.5rem, 7vh, 4.5rem);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .story-title {
+    margin-top: 1.5rem;
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+  }
+  /* .head-tail is inline in the hero, where it follows the headline on the same
+     line. Here it is the second line of a centred title. */
+  .story-title .head-tail { display: block; max-width: 30ch; margin-inline: auto; }
+  .story-lede { margin-top: 1.5rem; color: var(--text-dim); max-width: 54ch; }
+
+  .story-body { position: relative; }
+  /* Measured, not guessed: `ch` is the width of the zero glyph and Inter's
+     average character is narrower, so 62ch lands around 72 real characters,
+     which is the top of the comfortable range for long-form. */
+  .story-prose { max-width: 62ch; margin: 0 auto; }
+  .story-block + .story-block { margin-top: 1.5rem; }
+  /* This is the page's primary content, not supporting copy, so it takes --text
+     rather than --text-dim. Softened a touch because 1,500 words of full-
+     strength white on near-black glares. */
+  .story-para {
+    color: var(--text);
+    opacity: 0.88;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    text-wrap: pretty;
+  }
+  .story-para--lead::first-letter {
+    float: left;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 3.6rem;
+    line-height: 0.82;
+    padding: 0.1rem 0.55rem 0 0;
+    color: var(--text);
+  }
+
+  /* Prints arrive as you reach them: a ScrollTrigger adds .in (see
+     useScrollMotion), which settles them into their tilt. */
+  .story-shot {
+    margin: 2rem auto;
+    width: min(100%, 340px);
+    opacity: 0;
+    transform: translateY(26px) rotate(0deg);
+    transition: opacity 0.7s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .story-shot.in { opacity: 1; transform: translateY(0) rotate(var(--rot, 0deg)); }
+  .story-shot img {
+    display: block;
+    width: 100%;
+    /* Most sources are landscape group shots; forcing them all into one
+       portrait frame would crop people out at the edges. The two genuinely
+       portrait sources get their own frame instead. */
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
+    background: var(--surface);
+  }
+  .story-shot--tall img { aspect-ratio: 4 / 5; }
+  /* In flow the prints are centred at a fixed width, so a 4/5 one comes out a
+     third taller than the rest and swallows a tablet viewport. Narrower, so all
+     eight land at roughly the same height. The gutter rule below re-declares
+     width from --w, where the tall pair are already the two narrowest. */
+  .story-shot--tall { width: min(100%, 260px); }
+
+  /* Gutter layout. Below this width the column plus two prints no longer fit,
+     so the prints stay in flow between the paragraphs. `top` is a percentage of
+     .story-body, so the composition survives any copy or viewport change. */
+  @media (min-width: 1200px) {
+    .story-shot {
+      position: absolute;
+      top: var(--top);
+      /* The vw cap is what keeps the prints off the text at the bottom of this
+         range: at 1200px the gutters are only ~250px, and a print at its full
+         configured width leaves under 20px of clearance once the tilt widens
+         its box and the shadow spreads. Above ~1450px the cap stops binding and
+         every print renders at the size it was composed at. */
+      width: min(var(--w), 16vw);
+      margin: 0;
+    }
+    /* nudge is an offset from the container edge: positive pulls the print in
+       toward the text, negative lets it hang past the edge. */
+    .story-shot[data-side="left"] { left: var(--nudge, 0px); }
+    .story-shot[data-side="right"] { right: var(--nudge, 0px); }
+  }
+
+  @media (pointer: fine) {
+    .story-shot.in:hover {
+      transform: rotate(0deg) translateY(-8px) scale(1.03);
+      z-index: 5;
+    }
+  }
+
+  /* useScrollMotion bails entirely under reduced motion, so .in is never added
+     and the prints would stay invisible. Show them settled, with no transition. */
+  @media (prefers-reduced-motion: reduce) {
+    .story-shot {
+      opacity: 1;
+      transform: rotate(var(--rot, 0deg));
+      transition: none;
+    }
+  }
+
+  .story-cta {
+    position: relative;
+    z-index: 2;
+    margin-top: clamp(3rem, 8vh, 5rem);
+  }
+
   /* ============ Products ============ */
 
   /* Programs split into audience groups. Each group is its own labelled band so
@@ -611,6 +757,10 @@
   .products-grid--stack .product-card:nth-child(3) { --stack-i: 2; }
   .products-grid--stack .product-card:nth-child(4) { --stack-i: 3; }
   .products-grid--stack .product-card:nth-child(5) { --stack-i: 4; }
+  /* A pinned card should not move under the pointer: shifting it would open a
+     gap against the card riding over it, and any self-movement risks being
+     read as scroll position by the fade above. Border brighten is enough. */
+  .products-grid--stack .product-card:hover { transform: none; }
 
   /* Stacked cards are always full width. An image card already fills that with
      its mockup; a text-only one would leave the right half empty, so its meta
@@ -746,6 +896,15 @@
     padding-top: 1.25rem;
   }
   .footer-copy { color: var(--text-faint); font-size: 0.875rem; }
+
+  /* Tablet: three columns leave the bio on a ~30-character measure, which is
+     narrower than a newspaper column. The copy takes the full width and the
+     portrait and stats pair up under it. Below 720px it drops to one column. */
+  @media (min-width: 721px) and (max-width: 900px) {
+    .about-card { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .about-left { grid-column: 1 / -1; }
+    .portrait { max-width: 320px; }
+  }
 
   @media (max-width: 860px) {
     .products-grid { grid-template-columns: minmax(0, 1fr); }
