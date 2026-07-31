@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import Gallery from './Gallery';
 
 interface JourneyItem {
   year: string;
@@ -13,6 +14,7 @@ export default function Journey() {
   return (
     <section className="section" id="diadromi" data-screen-label="Journey" data-edit-section="journey">
       <h2 className="display-l display-font" data-reveal="" data-edit-id="home.journey.title" data-edit-key="journey.title">{t('journey.title')}</h2>
+      <Gallery />
       <div className="journey-list">
         <div className="journey-progress js-journey-progress" aria-hidden="true"></div>
         {items.map((j, i) => (

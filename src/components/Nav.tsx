@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { SITE } from '../config';
 
 export default function Nav() {
   const { t, i18n } = useTranslation();
@@ -23,10 +24,13 @@ export default function Nav() {
           <a href="#programmata" data-edit-id="nav.links.programs" data-edit-key="nav.programs">{t('nav.programs')}</a>
         </div>
         <div className="nav-right">
-          <div className="lang-toggle" role="group" aria-label="Language">
-            <button type="button" className={lang === 'el' ? 'active' : ''} onClick={() => i18n.changeLanguage('el')} data-edit-id="nav.lang.el">EL</button>
-            <button type="button" className={lang === 'en' ? 'active' : ''} onClick={() => i18n.changeLanguage('en')} data-edit-id="nav.lang.en">EN</button>
-          </div>
+          {/* Greek is paused, not removed: flip SITE.showLangToggle to bring it back. */}
+          {SITE.showLangToggle ? (
+            <div className="lang-toggle" role="group" aria-label="Language">
+              <button type="button" className={lang === 'el' ? 'active' : ''} onClick={() => i18n.changeLanguage('el')} data-edit-id="nav.lang.el">EL</button>
+              <button type="button" className={lang === 'en' ? 'active' : ''} onClick={() => i18n.changeLanguage('en')} data-edit-id="nav.lang.en">EN</button>
+            </div>
+          ) : null}
           <a className="btn btn-ghost btn-sm nav-cta" href="#epikoinonia" data-edit-id="nav.cta.contact" data-edit-key="nav.contact">{t('nav.contact')}</a>
         </div>
       </div>

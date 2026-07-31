@@ -31,6 +31,13 @@
   },
   "journey": {
     "title": "Journey",
+    "galleryAlts": [
+      "Apollon Papas presenting at a screen during a training session",
+      "Apollon Papas with a delegation at the European Parliament",
+      "Apollon Papas with a group of students celebrating at the end of a programme",
+      "Apollon Papas with his team at a corporate event",
+      "Apollon Papas presenting certificates to programme participants"
+    ],
     "items": [
       {
         "year": "2017",
@@ -56,22 +63,57 @@
   },
   "programs": {
     "title": "Programs",
-    "crsTitle": "Career Readiness Sprint",
-    "crsDesc": "4 weeks of practical preparation for the job market.",
     "live": "Live",
     "soon": "Coming soon",
-    "mockupPlaceholder": "Product screenshot"
+    "free": "Free",
+    "foundersLabel": "For Entrepreneurs & Decision Makers",
+    "studentsLabel": "For Young Students",
+    "founders": [
+      {
+        "id": "sprint",
+        "kicker": "6-Week Execution Sprint",
+        "title": "From Chaos to Revenue",
+        "desc": "A work-along sprint designed to educate and lead founders to launch their product or service in under 6 weeks. Start from ideation, end up with a launched product and real clients to deal with.",
+        "status": "live"
+      },
+      {
+        "id": "powerup",
+        "kicker": "Webinar",
+        "title": "PowerUp!",
+        "desc": "For busy founders who need clear Enterprise-grade frameworks to create and audit their current digital strategies and efforts, as well as build their first SOPs.",
+        "status": "free"
+      },
+      {
+        "id": "mentorship",
+        "kicker": "18-hour course",
+        "title": "The Mentorship",
+        "desc": "A comprehensive 18-hour course for founders and executives leading teams of 10 to 500 people into a rocket launch. Restructure your mindset, hone your skills, learn new tools, and scale up your operations and efficiency. A programme born from 9,000+ hours of Enterprise consulting, made simple for smaller founders and executives who are looking to adapt their business and leading tactics to the new era of AI with upgraded processes, tools, and global reach.",
+        "status": "soon"
+      },
+      {
+        "id": "vault",
+        "kicker": "Backed by GYA Media & Apollon Papas",
+        "title": "The Founder VAULT",
+        "desc": "Online content most of the time is not valid or valuable. You find yourself reading AI-written articles, or posts and reels that do not provide true guidance and a clear path for execution. This hub is the result of 15 years of experience and the client-facing handouts my team and I have written and delivered in in-house trainings, client seminars, and how-to guides made for teams that needed an extra hand. All packed into a useful, immensely valuable vault that gives you direct access to agency knowledge: eBooks, workbooks, tool guides, PDF handouts, checklists, podcasts, interviews, and more.",
+        "status": "soon"
+      }
+    ],
+    "students": [
+      {
+        "id": "crs",
+        "kicker": "4-week sprint",
+        "title": "Career Readiness Sprint",
+        "desc": "4 weeks of practical preparation for the job market.",
+        "status": "live"
+      }
+    ]
   },
   "contact": {
     "title": "Contact",
-    "heading": "Let's talk.",
-    "book": "Book a call",
     "linkedin": "LinkedIn"
   },
   "footer": {
-    "rights": "© 2026 Apollon Papas",
-    "tagline": "Founder, GYA Media Group",
-    "privacy": "Privacy",
-    "terms": "Terms"
+    "rights": "© {{from}}-{{to}} Apollon Papas",
+    "tagline": "Founder, GYA Media Group"
   }
 }

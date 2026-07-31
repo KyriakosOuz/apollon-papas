@@ -15,7 +15,57 @@ export const SITE = {
   // button falls back to the contact anchor so nothing dead-links in the meantime.
   calendlyUrl: '',
   crsPath: '/career-readiness-sprint',
+  // Apollo has paused the Greek locale. The toggle is hidden and i18n is pinned
+  // to EN (see src/i18n/index.ts); el.json stays in the build so flipping this
+  // back to true is the only change needed to bring Greek back.
+  showLangToggle: false,
+  // Year the business started, for the footer copyright range. The end year is
+  // taken from the clock at render time.
+  foundedYear: 2017,
+  // Programs render as a sticky stack: each card pins under the nav and the
+  // next one slides over it. Set to false for a plain scrolling grid.
+  programStack: true,
 };
+
+// Programs: copy lives in the locale files under `programs.founders` /
+// `programs.students`, keyed by id. Layout and media are structural, so they
+// live here. `span` drives the grid: 'wide' takes the full row.
+export type ProgramMedia = {
+  image?: string;
+  href?: string;
+  span?: 'wide';
+  // Overrides the default 16/9 mockup frame. Set it for artwork that carries
+  // its own composition and would lose content to a crop.
+  ratio?: string;
+};
+
+// Same-origin paths rather than full URLs, so these open in place instead of a
+// new tab (ProgramCard only adds target=_blank for absolute http(s) links).
+export const PROGRAM_MEDIA: Record<string, ProgramMedia> = {
+  sprint: { image: '/images/6ws-banner.jpg', href: '/fromchaostorevenue', span: 'wide' },
+  // The webinar banner is a finished 2:1 layout with type running to its edges,
+  // so it keeps its own ratio rather than being cropped to 16/9.
+  powerup: { image: '/images/powerup-banner.jpg', href: '/webinar-powerup', span: 'wide', ratio: '1400 / 684' },
+  // The two unreleased programs have nowhere to point yet, so they stay
+  // unlinked and render without the arrow.
+  mentorship: {},
+  vault: {},
+  crs: { image: '/images/crs-banner-16x9-dark.png', href: SITE.crsPath, span: 'wide' },
+};
+
+// Journey snapshot wall. `rot` tilts each print, `lift` nudges it off the
+// baseline and `z` sets the overlap order. Fixed values, not random, so the
+// composition is identical on every load.
+// `w` varies the print sizes, `focus` shifts the crop for photos whose subject
+// is not centred once they are cropped to the shared landscape frame.
+export const GALLERY = [
+  { src: '/images/gallery/g4.jpg', rot: '-5.5deg', lift: '16px', z: 1, w: '17vw', focus: 'center' },
+  { src: '/images/gallery/g3.jpg', rot: '2.5deg', lift: '-12px', z: 3, w: '20vw', focus: 'center' },
+  { src: '/images/gallery/g1.jpg', rot: '-1.5deg', lift: '4px', z: 5, w: '23vw', focus: 'center' },
+  { src: '/images/gallery/g2.jpg', rot: '4deg', lift: '-6px', z: 2, w: '20vw', focus: 'center' },
+  // Shot portrait, so the group sits low once cropped to landscape.
+  { src: '/images/gallery/g5.jpg', rot: '-3deg', lift: '20px', z: 4, w: '17vw', focus: 'center 62%' },
+];
 
 export const AURORA_PALETTE = ['#F2C14E', '#FF7A3C', '#E85CCB', '#5B7CF5', '#2FD6C2'];
 

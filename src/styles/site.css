@@ -24,6 +24,12 @@
     --r-chip:  8px;
     --r-pill:  999px;
 
+    /* Sticky program stack: where the first card pins (clear of the fixed nav)
+       and how far each following card is nudged down, so the stack shows an
+       edge of every card underneath. */
+    --stack-top:  92px;
+    --stack-step: 14px;
+
     --font-display: 'Manrope Variable', 'Inter Variable', system-ui, -apple-system, sans-serif;
     --font-body: 'Inter Variable', system-ui, -apple-system, sans-serif;
   }
@@ -523,8 +529,112 @@
   .journey-title { font-size: 1.25rem; font-weight: 600; margin: 0.85rem 0 0.4rem; }
   .journey-body { color: var(--text-dim); max-width: 75ch; }
 
+  /* ============ Journey gallery ============ */
+  /* Snapshot wall above the timeline. On a near-black page a bare photo edge
+     dissolves into the background, so every print carries a hairline border and
+     a deep shadow to lift it off the page. */
+  .gallery { margin: clamp(1.5rem, 4vh, 2.5rem) 0 clamp(2.5rem, 6vh, 4rem); }
+  .gallery-scatter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.25rem 0;
+  }
+  .gallery-shot {
+    margin: 0;
+    flex: 0 0 auto;
+    width: clamp(140px, var(--w, 20vw), 280px);
+    transform: rotate(var(--rot, 0deg)) translateY(var(--lift, 0));
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* Negative margin, not a negative gap: `gap` rejects negative lengths, so the
+     prints would sit in a neat row instead of piling up. */
+  .gallery-shot + .gallery-shot { margin-left: clamp(-2.25rem, -2.2vw, -1rem); }
+  .gallery-shot img {
+    display: block;
+    width: 100%;
+    /* One frame for every print: the source photos run from 4:3 to portrait,
+       and left at their own ratios the tall one blows out the row height. */
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
+    background: var(--surface);
+  }
+  /* Straighten and lift the hovered print to the front of the pile. */
+  @media (pointer: fine) {
+    .gallery-shot:hover {
+      transform: rotate(0deg) translateY(calc(var(--lift, 0px) - 10px)) scale(1.04);
+      z-index: 20;
+      position: relative;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-shot { transition: none; }
+  }
+
   /* ============ Products ============ */
-  .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; max-width: 900px; }
+
+  /* Programs split into audience groups. Each group is its own labelled band so
+     the founder track and the student track never read as one flat list. */
+  .program-group { max-width: none; }
+  .program-group + .program-group { margin-top: clamp(3.5rem, 9vh, 6rem); }
+  .program-group-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .program-group-label { color: var(--gold); white-space: nowrap; }
+  .program-group-rule { flex: 1; height: 1px; background: var(--border); }
+
+  .products-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+
+  /* Sticky stack: each card pins just under the nav and the next one rides up
+     over it, leaving a sliver of every previous card visible. Flex rather than
+     grid so each card's sticky containing block is the whole column. */
+  .products-grid--stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+  }
+  .products-grid--stack .product-card {
+    position: sticky;
+    top: calc(var(--stack-top) + var(--stack-step) * var(--stack-i, 0));
+    /* GSAP fades these out as they get covered (see useScrollMotion). */
+    will-change: opacity;
+  }
+  .products-grid--stack .product-card:nth-child(1) { --stack-i: 0; }
+  .products-grid--stack .product-card:nth-child(2) { --stack-i: 1; }
+  .products-grid--stack .product-card:nth-child(3) { --stack-i: 2; }
+  .products-grid--stack .product-card:nth-child(4) { --stack-i: 3; }
+  .products-grid--stack .product-card:nth-child(5) { --stack-i: 4; }
+
+  /* Stacked cards are always full width. An image card already fills that with
+     its mockup; a text-only one would leave the right half empty, so its meta
+     sits left and the description runs in a second column. */
+  .products-grid--stack .product-card:not(.product-card--media) .product-body {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    /* Three content rows plus a spacer that soaks up the height the longer
+       description adds, so the meta stays grouped at the top of its column. */
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+  }
+  .products-grid--stack .product-card:not(.product-card--media) .product-kicker { grid-area: 1 / 1; }
+  .products-grid--stack .product-card:not(.product-card--media) .product-head { grid-area: 2 / 1; }
+  .products-grid--stack .product-card:not(.product-card--media) .chip {
+    grid-area: 3 / 1;
+    justify-self: start;
+    margin-top: 0.4rem;
+  }
+  .products-grid--stack .product-card:not(.product-card--media) .product-desc {
+    grid-area: 1 / 2 / -1 / 3;
+    max-width: 56ch;
+  }
   .product-card {
     display: flex;
     flex-direction: column;
@@ -537,11 +647,31 @@
     transition: border-color 0.2s ease, transform 0.2s ease;
   }
   .product-card:hover { border-color: var(--border-strong); transform: translateY(-3px); }
+  /* Only linked cards react to the pointer; the coming-soon ones stay put. */
+  div.product-card:hover { border-color: var(--border); transform: none; }
+  .product-card--wide { grid-column: 1 / -1; }
+  /* A wide card carrying a mockup runs image beside copy instead of above it. */
+  .product-card--wide.product-card--media {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+  .product-body { display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; width: 100%; }
+  .product-card:not(.product-card--wide) .product-body { height: 100%; }
+  /* Side-by-side cards stretch to the tallest in the row. Pinning the status
+     chip to the bottom lines the chips up instead of leaving a void under the
+     shorter card's copy. Full-row cards have no neighbour to align to, so the
+     chip stays under the copy. */
+  .product-card:not(.product-card--wide) .product-body .chip:last-child { margin-top: auto; }
+  .product-kicker { color: var(--text-faint); }
   .product-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%; }
   .product-title { font-size: 1.25rem; font-weight: 600; }
   .product-arrow { color: var(--text-dim); font-size: 1.1rem; transition: color 0.2s ease, transform 0.2s ease; }
   .product-card:hover .product-arrow { color: var(--text); transform: translate(2px, -2px); }
-  .product-desc { color: var(--text-dim); }
+  /* The grid runs the full section width, so the measure is capped here rather
+     than by the column: past ~60 characters a line gets tiring to track back. */
+  .product-desc { color: var(--text-dim); max-width: 48ch; }
   .chip {
     font-size: 0.75rem;
     font-weight: 500;
@@ -553,7 +683,6 @@
     color: var(--text-dim);
   }
   .chip-live { background: color-mix(in srgb, var(--gold) 12%, transparent); color: var(--gold); }
-  .product-ghost { border-style: dashed; align-items: center; justify-content: center; min-height: 340px; }
 
   /* ============ Contact ============ */
   .contact { overflow: hidden; }
@@ -576,11 +705,14 @@
     padding: clamp(2rem, 8vh, 5rem) 0;
   }
   .contact-label { color: var(--text-faint); }
-  .contact-heading { max-width: 20ch; }
   .contact-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+  /* With the headline and booking CTA gone, the address is the section's
+     anchor, so it sits a step above body size. */
   .contact-email {
-    font-size: 1.0625rem;
-    color: var(--text-dim);
+    font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--text);
     transition: color 0.2s ease;
     word-break: break-word;
   }
@@ -614,9 +746,24 @@
     padding-top: 1.25rem;
   }
   .footer-copy { color: var(--text-faint); font-size: 0.875rem; }
-  .footer-links { display: flex; gap: 1.5rem; }
-  .footer-links a { color: var(--text-faint); font-size: 0.875rem; transition: color 0.2s ease; }
-  .footer-links a:hover { color: var(--text); }
+
+  @media (max-width: 860px) {
+    .products-grid { grid-template-columns: minmax(0, 1fr); }
+    .product-card--wide.product-card--media { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
+    /* A card taller than the viewport cannot stack, it just covers the one
+       under it, so the phone layout is a plain scrolling column. */
+    .products-grid--stack .product-card { position: static; }
+    .products-grid--stack .product-card:not(.product-card--media) .product-body {
+      display: flex;
+      flex-direction: column;
+    }
+    .products-grid--stack .product-card:not(.product-card--media) .chip { margin-top: 0.25rem; }
+  }
+
+  /* The stack is a scroll effect, so it goes with everything else that moves. */
+  @media (prefers-reduced-motion: reduce) {
+    .products-grid--stack .product-card { position: static; }
+  }
 
   @media (max-width: 720px) {
     .nav-links { display: none; }
@@ -628,12 +775,36 @@
     .journey-item { padding: 1.4rem 1.5rem; }
     .journey-item::before { left: -24px; }
     .contact-aurora { width: 90vw; margin-left: -45vw; }
+    /* Five overlapping prints cannot survive a phone width, so the pile
+       becomes a swipeable row of upright photos. */
+    .gallery-scatter {
+      justify-content: flex-start;
+      gap: 0.75rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 0.5rem 0 1rem;
+      -webkit-overflow-scrolling: touch;
+      /* A default scrollbar reads as a bright bar on the near-black page; the
+         half-visible next photo already signals that the row scrolls. */
+      scrollbar-width: none;
+    }
+    .gallery-scatter::-webkit-scrollbar { display: none; }
+    .gallery-shot {
+      width: 68vw;
+      transform: none;
+      scroll-snap-align: center;
+    }
+    .gallery-shot + .gallery-shot { margin-left: 0; }
+    /* The label alone fills a phone row, so the trailing rule would be a stub. */
+    .program-group-label { white-space: normal; }
+    .program-group-rule { display: none; }
   }
 
-  /* ============ Product mockup (CRS banner) ============ */
+  /* ============ Product mockup ============ */
   .product-mockup {
     width: 100%;
-    height: 220px;
+    aspect-ratio: var(--mockup-ratio, 16 / 9);
+    height: auto;
     border: 1px solid var(--border-strong);
     border-radius: 10px;
     object-fit: cover;

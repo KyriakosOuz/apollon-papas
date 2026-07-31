@@ -95,10 +95,74 @@ export function useScrollMotion(): void {
       });
     });
 
+    // Program stack: each card fades out as the next one scrolls up over it,
+    // so only the card you are reading is ever visible.
+    //
+    // Opacity is written straight from measured geometry rather than through a
+    // scrubbed tween per card. ScrollTrigger resolves start/end against an
+    // element's normal-flow position, which a position:sticky card does not
+    // keep, so per-card triggers fire at the wrong scroll offsets.
+    // Mirrors the max-width in the stack's CSS block. Below it the cards are
+    // static and there is nothing to fade.
+    const stackable = window.matchMedia('(min-width: 861px)');
+
+    const pinOf = (el: HTMLElement) => parseFloat(getComputedStyle(el).top) || 0;
+
+    const updateStacks = () => {
+      // Re-queried every frame rather than captured once: React can swap these
+      // nodes on a re-render, and a held reference then styles detached
+      // elements while the live cards keep their original opacity.
+      document.querySelectorAll<HTMLElement>('.products-grid--stack').forEach((grid) => {
+        const cards = Array.from(grid.children) as HTMLElement[];
+        if (cards.length < 2) return;
+
+        cards.forEach((card, i) => {
+          const next = cards[i + 1];
+          // The last card has nothing riding over it.
+          if (!next) return;
+          if (!stackable.matches) {
+            card.style.opacity = '';
+            return;
+          }
+
+          const pin = pinOf(card);
+          const top = card.getBoundingClientRect().top;
+          // At the end of the section the stack releases and the cards travel
+          // up together, which would grow `exposed` again and fade them back
+          // in. Anything already above its own pin has been passed for good.
+          if (top < pin - 1) {
+            card.style.opacity = '0';
+            return;
+          }
+
+          // How much of this card is still uncovered, and the sliver it is
+          // left with once the next card settles onto its pin.
+          const exposed = next.getBoundingClientRect().top - top;
+          const sliver = pinOf(next) - pin;
+          // Fade across the second half of being covered, so a card holds full
+          // opacity until the next one is genuinely on top of it, and lands on
+          // exactly 0 rather than leaving a faint ghost behind.
+          const fadeOver = card.offsetHeight * 0.5;
+          const progress = gsap.utils.clamp(0, 1, (fadeOver - exposed) / Math.max(1, fadeOver - sliver));
+          card.style.opacity = String(1 - progress);
+        });
+      });
+    };
+
+    // Its own frame loop rather than a ScrollTrigger callback or the GSAP
+    // ticker: the values come from live rects, so this stays correct no matter
+    // what moved the page (wheel, Lenis, anchor jump, resize, programmatic
+    // scroll).
+    let stackFrame = requestAnimationFrame(function loop() {
+      updateStacks();
+      stackFrame = requestAnimationFrame(loop);
+    });
+
     requestAnimationFrame(() => ScrollTrigger.refresh());
 
     return () => {
       gsap.ticker.remove(rafCb);
+      cancelAnimationFrame(stackFrame);
       lenis.destroy();
       lenisRef.current = null;
     };
