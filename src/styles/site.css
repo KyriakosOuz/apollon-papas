@@ -125,6 +125,105 @@
   .nav-links a.active { color: var(--text); }
   .nav-right { display: flex; align-items: center; gap: 0.75rem; margin-left: auto; }
 
+  /* ---- Programs dropdown ---- */
+  .nav-dropdown { position: relative; display: flex; align-items: center; }
+  .nav-dropdown-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: inherit;
+    color: var(--text-dim);
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  .nav-dropdown-trigger:hover,
+  .nav-dropdown[data-open="true"] .nav-dropdown-trigger { color: var(--text); }
+  .nav-caret {
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform 0.25s ease;
+  }
+  .nav-dropdown[data-open="true"] .nav-caret { transform: translateY(1px) rotate(-135deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-caret { transition: none; }
+  }
+
+  .nav-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 14px);
+    left: 50%;
+    transform: translateX(-50%);
+    /* Sized so the longer audience label sits on one line. */
+    min-width: 302px;
+    padding: 0.45rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-card);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  }
+  .nav-dropdown-menu[hidden] { display: none; }
+  /* Bridges the gap under the trigger. Without it the pointer crosses dead
+     space on the way down and pointerleave closes the menu before you arrive. */
+  .nav-dropdown-menu::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -14px;
+    height: 14px;
+  }
+
+  .nav-dd-group + .nav-dd-group {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+  }
+  /* Scoped through the menu rather than left bare: these sit inside .nav-links,
+     whose `.nav-links a` rule is more specific than a lone class and would
+     otherwise repaint the gold label and the rows in the bar's link colour. */
+  .nav-dropdown-menu .nav-dd-label {
+    display: block;
+    padding: 0.25rem 0.55rem 0.35rem;
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gold);
+    transition: color 0.2s ease;
+  }
+  .nav-dropdown-menu .nav-dd-label:hover { color: var(--gold-soft); }
+  .nav-dropdown-menu .nav-dd-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.9rem;
+    padding: 0.4rem 0.55rem;
+    border-radius: var(--r-input);
+    /* A notch under the 0.875rem nav links: a menu hanging off the bar should
+       not read heavier than the bar. */
+    font-size: 0.8125rem;
+    color: var(--text-dim);
+    transition: background-color 0.18s ease, color 0.18s ease;
+  }
+  a.nav-dd-item:hover { background: var(--surface-2); color: var(--text); }
+  /* The unreleased two are not links, so they must not look like one. */
+  .nav-dd-item.is-soon { color: var(--text-faint); }
+  .nav-dd-item .chip {
+    flex-shrink: 0;
+    font-size: 0.5625rem;
+    letter-spacing: 0.05em;
+    padding: 0.12rem 0.36rem;
+  }
+
   /* Mobile menu. The button and panel only exist below 720px, where the inline
      links are hidden; above it there is nothing to open. */
   .nav-toggle {
@@ -164,6 +263,11 @@
     /* Opaque, unlike the bar above it: the display type on the story page read
        straight through a translucent panel and muddied the links. */
     background: var(--bg);
+    /* With the programs expanded the panel is tall enough to run off a short
+       phone, and it hangs from a fixed bar so the page cannot scroll it. */
+    max-height: calc(100svh - 3.9rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
   .nav-panel[hidden] { display: none; }
   .nav-panel-inner {
@@ -173,7 +277,8 @@
     gap: 0.25rem;
     padding: 0.5rem 2rem 1.25rem;
   }
-  .nav-panel-inner > a {
+  .nav-panel-inner > a,
+  .nav-panel .nav-dropdown-trigger {
     padding: 0.75rem 0;
     font-size: 1.0625rem;
     font-weight: 500;
@@ -181,6 +286,23 @@
     border-bottom: 1px solid var(--border);
   }
   .nav-panel-inner > a.active { color: var(--text); }
+
+  /* Same markup as the bar, dropped into the flow: a row that expands in place
+     rather than a panel floating over the page. */
+  .nav-panel .nav-dropdown { display: block; }
+  .nav-panel .nav-dropdown-trigger { width: 100%; justify-content: space-between; }
+  .nav-panel .nav-dropdown-menu {
+    position: static;
+    transform: none;
+    min-width: 0;
+    padding: 0.5rem 0 0.25rem;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+  .nav-panel .nav-dropdown-menu::before { content: none; }
+  /* Bigger than the bar's copy: these are touch targets, not hover targets. */
+  .nav-panel .nav-dd-item { font-size: 0.9375rem; padding: 0.55rem 0.65rem; }
   .nav-panel-cta {
     margin-top: 1rem;
     /* Overrides the link rules above: this one is a button, not a list row. */
@@ -300,8 +422,12 @@
 
   /* ============ Trusted by ============ */
   .trusted {
+    /* Pushed to the foot of the hero, then lifted clear of the bottom edge:
+       Apollo wants the strip higher but still inside the hero, so the lift is
+       bottom padding rather than dropping the auto margin, which would park it
+       right under the CTA and leave a hole beneath. */
     margin-top: auto;
-    padding: clamp(2.5rem, 7vh, 4.5rem) 0 2.5rem;
+    padding: clamp(2rem, 5vh, 3.25rem) 0 clamp(3.5rem, 9vh, 6rem);
     display: flex;
     align-items: center;
     flex-wrap: wrap;

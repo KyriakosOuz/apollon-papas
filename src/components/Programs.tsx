@@ -1,16 +1,8 @@
 import type { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PROGRAM_MEDIA, SITE } from '../config';
+import { PROGRAM_MEDIA, SITE, programGroupId, type Program } from '../config';
 
-interface Program {
-  id: string;
-  kicker: string;
-  title: string;
-  desc: string;
-  status: 'live' | 'free' | 'soon';
-}
-
-const STATUS_CHIP: Record<Program['status'], string> = {
+export const STATUS_CHIP: Record<Program['status'], string> = {
   live: 'chip chip-live',
   free: 'chip chip-live',
   soon: 'chip',
@@ -92,7 +84,9 @@ export default function Programs() {
         {t('programs.title')}
       </h2>
 
-      <div className="program-group" data-reveal="">
+      {/* Each band carries its own anchor so the nav dropdown can land on the
+          audience you picked rather than the top of the section. */}
+      <div className="program-group" id={programGroupId('founders')} data-reveal="">
         <div className="program-group-head">
           <span className="program-group-label label" data-edit-id="home.programs.founders-label" data-edit-key="programs.foundersLabel">
             {t('programs.foundersLabel')}
@@ -106,7 +100,7 @@ export default function Programs() {
         </div>
       </div>
 
-      <div className="program-group" data-reveal="">
+      <div className="program-group" id={programGroupId('students')} data-reveal="">
         <div className="program-group-head">
           <span className="program-group-label label" data-edit-id="home.programs.students-label" data-edit-key="programs.studentsLabel">
             {t('programs.studentsLabel')}

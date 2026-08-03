@@ -33,6 +33,23 @@ export const SITE = {
 // Programs: copy lives in the locale files under `programs.founders` /
 // `programs.students`, keyed by id. Layout and media are structural, so they
 // live here. `span` drives the grid: 'wide' takes the full row.
+// Shape of one entry in `programs.founders` / `programs.students`. Shared so the
+// Programs section and the nav dropdown read the same list the same way.
+export type Program = {
+  id: string;
+  kicker: string;
+  title: string;
+  desc: string;
+  status: 'live' | 'free' | 'soon';
+};
+
+export const PROGRAM_GROUPS = ['founders', 'students'] as const;
+export type ProgramGroup = (typeof PROGRAM_GROUPS)[number];
+
+// Anchor for one audience band inside the Programs section. Defined here so the
+// section that owns the id and the dropdown that links to it cannot drift.
+export const programGroupId = (group: ProgramGroup) => `programmata-${group}`;
+
 export type ProgramMedia = {
   image?: string;
   href?: string;
